@@ -2,7 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import pino from 'pino-http';
-import { getEnvVar } from './utils/getEnvVar';
+import { getEnvVar } from './utils/getEnvVar.js';
+import { getAllContacts, getContactById } from './services/contacts.js';
 
 export const setupServer = () => {
   const app = express();
@@ -16,10 +17,32 @@ export const setupServer = () => {
     }),
   );
 
-  // request contacts
+  app.get('/contacts', async (req, res) => {
+    const contacts = await getAllContacts();
 
-  // request contact by id
+    res.status(200).json({
+      status: 200,
+      message: 'Successfully found contacts!',
+      data: contacts,
+    });
+  });
 
+  app.get('/contacts/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const contactById = await getContactById(id);
+
+    if (!contactById) {
+      res.status(404).json({
+        message: 'Contact not found',
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      message: `Successfully found contact with id ${id}!`,
+      data: contactById,
+    });
+  });
   app.use((req, res, next) => {
     res.status(404).json({
       message: 'Page not found with this route',
