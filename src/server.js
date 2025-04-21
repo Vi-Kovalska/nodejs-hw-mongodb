@@ -20,12 +20,12 @@ export const setupServer = () => {
 
   app.use('/contacts', contactsRouter);
 
-  app.use('*', notFoundHandler);
+  app.use(notFoundHandler);
 
   app.use(errorHandler);
 
   const port = +getEnvVar('PORT', '3000');
-  console.log('PORT IS:', port);
+
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });

@@ -8,7 +8,7 @@ export const createContact = async payload => {
   return createdContact;
 };
 export const updateContact = async (contactId, payload, options = {}) => {
-  const result = await ContactsModel.findByIdAndUpdate(
+  const result = await ContactsModel.findOneAndUpdate(
     { _id: contactId },
     payload,
     options,
