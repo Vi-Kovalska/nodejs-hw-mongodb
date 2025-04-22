@@ -20,5 +20,6 @@ export const deleteContact = async contactId => {
   const removedContact = await ContactsModel.findOneAndDelete({
     _id: contactId,
   });
+
   return removedContact;
 };
