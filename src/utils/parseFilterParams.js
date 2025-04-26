@@ -16,12 +16,12 @@ const parseIsFavorite = boolean => {
 };
 
 export const parseFilterParams = query => {
-  const { contactType, isFavorite } = query;
+  const { contactType, isFavourite } = query;
 
   const parsedContactType = parseContactType(contactType);
-  const parsedIsFavorite = parseIsFavorite(isFavorite);
+  const parsedIsFavorite = parseIsFavorite(isFavourite);
   return {
     contactType: parsedContactType,
-    isFavorite: parsedIsFavorite,
+    isFavourite: parsedIsFavorite,
   };
 };
