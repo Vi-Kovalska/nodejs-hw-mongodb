@@ -24,7 +24,7 @@ export const postContactSchema = Joi.object({
     'string.min': 'Email should have at least {#limit} characters',
     'string.max': 'Email should have at most {#limit} characters',
   }),
-  isFavorite: Joi.boolean(),
+  isFavourite: Joi.boolean(),
   contactType: Joi.string()
     .valid(...contactTypes)
     .min(3)
@@ -51,7 +51,7 @@ export const patchContactSchema = Joi.object({
     'string.min': 'Email should have at least {#limit} characters',
     'string.max': 'Email should have at most {#limit} characters',
   }),
-  isFavorite: Joi.boolean(),
+  isFavourite: Joi.boolean(),
   contactType: Joi.string()
     .valid(...contactTypes)
     .min(3)
