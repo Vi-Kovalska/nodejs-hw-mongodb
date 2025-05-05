@@ -1,6 +1,13 @@
 import Joi from 'joi';
 import { contactTypes, validEmail, validPhone } from '../constants/contacts.js';
+import { isValidObjectId } from 'mongoose';
 export const postContactSchema = Joi.object({
+  userId: Joi.string().custom((value, helper) => {
+    if (value && !isValidObjectId(value)) {
+      return helper.message('userId should be a valid mongo id');
+    }
+    return true;
+  }),
   name: Joi.string().min(3).max(20).required().messages({
     'string.base': 'Username should be a string',
     'string.min': 'Username should have at least {#limit} characters',
@@ -33,6 +40,12 @@ export const postContactSchema = Joi.object({
 });
 
 export const patchContactSchema = Joi.object({
+  userId: Joi.string().custom((value, helper) => {
+    if (value && !isValidObjectId(value)) {
+      return helper.message('userId should be a valid mongo id');
+    }
+    return true;
+  }),
   name: Joi.string().min(3).max(20).messages({
     'string.base': 'Username should be a string',
     'string.min': 'Username should have at least {#limit} characters',

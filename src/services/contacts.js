@@ -13,6 +13,8 @@ export const getAllContacts = async ({
   const skip = (page - 1) * perPage;
   const contactsQuery = ContactsModel.find();
 
+  if (filter.userId) contactsQuery.where('userId').equals(filter.userId);
+
   if (filter.type) contactsQuery.where('type').equals(filter.type);
 
   if (typeof filter.isFavourite === 'boolean')
@@ -40,6 +42,7 @@ export const getContactById = id => ContactsModel.findOne({ _id: id });
 
 export const createContact = async payload => {
   const createdContact = await ContactsModel.create(payload);
+
   return createdContact;
 };
 export const updateContact = async (contactId, payload, options = {}) => {

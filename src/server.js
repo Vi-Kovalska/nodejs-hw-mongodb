@@ -3,9 +3,11 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import pino from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
-import contactsRouter from './routers/contacts.js';
+import Routers from './routers/index.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import cookieParser from 'cookie-parser';
+
 export const setupServer = () => {
   const app = express();
   dotenv.config();
@@ -18,7 +20,8 @@ export const setupServer = () => {
     }),
   );
 
-  app.use('/contacts', contactsRouter);
+  app.use(cookieParser());
+  app.use(Routers);
 
   app.use(notFoundHandler);
 
