@@ -9,7 +9,7 @@ const contactsSchema = new Schema(
     phoneNumber: { type: String, required: true },
     email: { type: String, match: validEmail, required: false },
     isFavourite: { type: Boolean, default: false },
-    type: {
+    contactType: {
       type: String,
       enum: contactTypes,
       required: true,

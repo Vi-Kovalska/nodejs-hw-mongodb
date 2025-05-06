@@ -37,11 +37,27 @@ export const getContactsController = async (req, res) => {
 export const getContactByIdController = async (req, res, next) => {
   const { id } = req.params;
 
+  const filter = { userId: req.user._id };
+  const { data } = await getAllContacts({
+    filter,
+  });
+
   const contactById = await getContactById(id);
 
   if (!contactById) {
     throw createHttpError(404, 'Contact not found');
   }
+
+  const existingContact = data.some(
+    item => item.userId.toString() === contactById.userId.toString(),
+  );
+
+  if (!existingContact)
+    throw createHttpError(
+      403,
+      'You do not have access to contact with such ID',
+    );
+
   res.status(200).json({
     status: 200,
     message: `Successfully found contact with id ${id}!`,

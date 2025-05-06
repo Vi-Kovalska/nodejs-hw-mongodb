@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../models/Session.js';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/auth.js';
 import { randomBytes } from 'node:crypto';
+import { log } from 'node:console';
 
 export const registerUser = async payload => {
   const { email, password } = payload;
@@ -54,7 +55,7 @@ const createSession = () => {
 };
 
 export const refreshUserSession = async ({ sessionId, refreshToken }) => {
-  const session = SessionsCollection.findOne({
+  const session = await SessionsCollection.findOne({
     _id: sessionId,
     refreshToken,
   });
@@ -66,11 +67,13 @@ export const refreshUserSession = async ({ sessionId, refreshToken }) => {
     throw createHttpError(401, 'Session token expired');
 
   const newSession = createSession();
+  const userId = session.userId;
+  console.log(userId);
 
   await SessionsCollection.deleteOne({ _id: session.sessionId, refreshToken });
 
   return await SessionsCollection.create({
-    userId: session.userId,
+    userId,
     ...newSession,
   });
 };
