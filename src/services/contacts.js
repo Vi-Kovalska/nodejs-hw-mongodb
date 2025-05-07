@@ -39,26 +39,20 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = id => ContactsModel.findOne({ _id: id });
+export const getContactById = filter => ContactsModel.findOne(filter);
 
 export const createContact = async payload => {
   const createdContact = await ContactsModel.create(payload);
 
   return createdContact;
 };
-export const updateContact = async (contactId, payload, options = {}) => {
-  const result = await ContactsModel.findOneAndUpdate(
-    { _id: contactId },
-    payload,
-    options,
-  );
+export const updateContact = async (filter, payload, options = {}) => {
+  const result = await ContactsModel.findOneAndUpdate(filter, payload, options);
   return result;
 };
 
-export const deleteContact = async contactId => {
-  const removedContact = await ContactsModel.findOneAndDelete({
-    _id: contactId,
-  });
+export const deleteContact = async filter => {
+  const removedContact = await ContactsModel.findOneAndDelete(filter);
 
   return removedContact;
 };

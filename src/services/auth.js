@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import { SessionsCollection } from '../models/Session.js';
 import { FIFTEEN_MINUTES, ONE_DAY } from '../constants/auth.js';
 import { randomBytes } from 'node:crypto';
-import { log } from 'node:console';
 
 export const registerUser = async payload => {
   const { email, password } = payload;
