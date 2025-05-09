@@ -2,6 +2,7 @@ import { Schema, model } from 'mongoose';
 import { contactTypes } from '../constants/contacts.js';
 import { validEmail } from '../constants/contacts.js';
 import { handleSaveError, setUpdateSettings } from './hooks.js';
+
 const contactsSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: 'users', required: true },
@@ -14,6 +15,9 @@ const contactsSchema = new Schema(
       enum: contactTypes,
       required: true,
       default: 'personal',
+    },
+    photo: {
+      type: String,
     },
   },
   { versionKey: false, timestamps: true },

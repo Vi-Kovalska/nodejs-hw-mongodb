@@ -37,6 +37,7 @@ export const postContactSchema = Joi.object({
     .min(3)
     .max(20)
     .required(),
+  photo: Joi.string(),
 });
 
 export const patchContactSchema = Joi.object({
@@ -69,4 +70,5 @@ export const patchContactSchema = Joi.object({
     .valid(...contactTypes)
     .min(3)
     .max(20),
+  photo: Joi.string(),
 });
