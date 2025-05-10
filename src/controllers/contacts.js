@@ -80,9 +80,8 @@ export const updateContactController = async (req, res, next) => {
   let photoUrl;
   if (photo) {
     photoUrl = await saveFileToCloudinary(photo);
-  } else {
-    photoUrl = '';
   }
+
   const result = await updateContact(
     { _id: id, userId },
     { ...req.body, photo: photoUrl },
