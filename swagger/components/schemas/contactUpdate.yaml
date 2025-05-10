@@ -1,11 +1,4 @@
 type: object
-required:
-  - _id
-  - userId
-  - name
-  - phoneNumber
-  - email
-  - contactType
 properties:
   _id:
     description: "Contact's id"
