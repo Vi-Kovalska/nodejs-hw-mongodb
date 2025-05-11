@@ -13,7 +13,7 @@ tags:
   #   description: Auth operations.
 servers:
   - url: http://localhost:3000
-  # - url: #посилання на задеплоєний сайт
+  - url: https://nodejs-hw-mongodb-1-e7hu.onrender.com
 paths:
   /contacts:
     post:
