@@ -42,7 +42,7 @@
             "multipart/form-data": {
               "schema": {
                 "type": "object",
-                "$ref": "#/components/schemas/contact"
+                "$ref": "#/components/schemas/contactCreate"
               }
             }
           }
@@ -77,8 +77,20 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -100,18 +112,20 @@
             "name": "page",
             "required": false,
             "schema": {
-              "type": "string",
-              "example": "1"
-            }
+              "type": "string"
+            },
+            "example": "1",
+            "description": "Current page number for pagination"
           },
           {
             "in": "query",
             "name": "perPage",
             "required": false,
             "schema": {
-              "type": "string",
-              "example": "5"
-            }
+              "type": "string"
+            },
+            "example": "5",
+            "description": "Number of contacts per page"
           },
           {
             "in": "query",
@@ -119,16 +133,17 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "_id",
               "enum": [
                 "_id",
                 "name",
                 "phoneNumber",
                 "email",
-                "isFavorite",
+                "isFavourite",
                 "contactType"
               ]
-            }
+            },
+            "example": "_id",
+            "description": "Field name to sort the contacts by"
           },
           {
             "in": "query",
@@ -136,25 +151,38 @@
             "required": false,
             "schema": {
               "type": "string",
-              "example": "asc",
               "enum": [
                 "asc",
                 "desc"
               ]
-            }
+            },
+            "example": "asc",
+            "description": "Sorting order (ascending or descending)"
           },
           {
             "in": "query",
-            "name": "filter",
+            "name": "isFavourite",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            },
+            "example": true,
+            "description": "Filter contacts by favourite status (true or false)"
+          },
+          {
+            "in": "query",
+            "name": "contactType",
             "required": false,
             "schema": {
               "type": "string",
-              "example": "isFavorite",
               "enum": [
-                "isFavorite",
-                "contactType"
+                "work",
+                "home",
+                "personal"
               ]
-            }
+            },
+            "example": "home",
+            "description": "Filter contacts by contact type"
           }
         ],
         "responses": {
@@ -229,6 +257,12 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
+          },
+          "404": {
+            "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -287,8 +321,14 @@
               }
             }
           },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -355,8 +395,20 @@
               }
             }
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/401"
+          },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "409": {
+            "$ref": "#/components/responses/409"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       },
@@ -385,29 +437,16 @@
         ],
         "responses": {
           "204": {
-            "description": "Delete contact by id",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "required": [
-                    "status"
-                  ],
-                  "properties": {
-                    "status": {
-                      "type": "integer",
-                      "example": 204
-                    }
-                  }
-                }
-              }
-            }
+            "$ref": "#/components/responses/204"
           },
           "401": {
             "$ref": "#/components/responses/401"
           },
           "404": {
             "$ref": "#/components/responses/404"
+          },
+          "500": {
+            "$ref": "#/components/responses/500"
           }
         }
       }
@@ -480,8 +519,14 @@
           }
         }
       },
-      "contactUpdate": {
+      "contactCreate": {
         "type": "object",
+        "required": [
+          "name",
+          "phoneNumber",
+          "email",
+          "contactType"
+        ],
         "properties": {
           "_id": {
             "description": "Contact's id",
@@ -527,12 +572,95 @@
           "photo": {
             "description": "Link to contact's photo",
             "type": "string",
+            "format": "binary",
+            "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
+          }
+        }
+      },
+      "contactUpdate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "Contact's name. Length should be between 3 and 20",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "phoneNumber": {
+            "description": "Contact's phone number",
+            "type": "string",
+            "example": 377755588333
+          },
+          "email": {
+            "description": "Contact's email. Length should be between 3 and 30",
+            "type": "number",
+            "pattern": "/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/",
+            "example": "JohnDoe@gmail.com"
+          },
+          "isFavourite": {
+            "description": "Whether the contact is a favorite.",
+            "type": "boolean",
+            "example": false
+          },
+          "contactType": {
+            "description": "Contact's type",
+            "type": "string",
+            "example": "work",
+            "enum": [
+              "work",
+              "home",
+              "personal"
+            ]
+          },
+          "photo": {
+            "description": "Link to contact's photo",
+            "type": "string",
+            "format": "binary",
             "example": "https://res.cloudinary.com/uqwgdu/image/upload/image.png"
           }
         }
       }
     },
     "responses": {
+      "204": {
+        "description": "No Content - The request was successful, but there is no content to return."
+      },
+      "400": {
+        "description": "Bad Request - The server could not understand the request due to invalid syntax or data.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 400
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Bad request in body"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Bad request! Id is not valid."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "401": {
         "description": "Unauthorized error",
         "content": {
@@ -599,6 +727,80 @@
                     "message": {
                       "type": "string",
                       "example": "Not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "409": {
+        "description": "Conflict",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 409
+                },
+                "message": {
+                  "type": "string",
+                  "example": "The request cannot be completed due to a conflict with the current state of the resource."
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Conflict. This id already exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "500": {
+        "description": "Server error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "required": [
+                "status",
+                "message",
+                "data"
+              ],
+              "properties": {
+                "status": {
+                  "type": "integer",
+                  "example": 500
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Something went wrong"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [
+                    "message"
+                  ],
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Server error"
                     }
                   }
                 }
