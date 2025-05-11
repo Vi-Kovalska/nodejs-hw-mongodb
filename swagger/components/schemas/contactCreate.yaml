@@ -1,5 +1,18 @@
 type: object
+required:
+  - name
+  - phoneNumber
+  - email
+  - contactType
 properties:
+  _id:
+    description: "Contact's id"
+    type: string
+    example: 65e4decdd286b30065d54af9
+  userId:
+    description: "User's id"
+    type: string
+    example: 65e4decdd286b30065d54af9
   name:
     description: "Contact's name. Length should be between 3 and 20"
     type: string

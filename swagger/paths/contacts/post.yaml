@@ -10,7 +10,7 @@ requestBody:
     multipart/form-data:
       schema:
         type: object
-        $ref: '../../components/schemas/contact.yaml'
+        $ref: ../../components/schemas/contactCreate.yaml
 responses:
   '201':
     description: Creates a contact
@@ -32,5 +32,13 @@ responses:
             data:
               type: object
               $ref: '../../components/schemas/contact.yaml'
+  '400':
+    $ref: ../../components/responses/400.yaml
+  '404':
+    $ref: '../../components/responses/404.yaml'
   '401':
     $ref: '../../components/responses/401.yaml'
+  '409':
+    $ref: ../../components/responses/409.yaml
+  '500':
+    $ref: '../../components/responses/500.yaml'

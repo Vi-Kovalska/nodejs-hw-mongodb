@@ -1,0 +1,26 @@
+description: Conflict
+content:
+  application/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status:
+          type: integer
+          example: 409
+        message:
+          type: string
+          example:
+            The request cannot be completed due to a conflict with the current
+            state of the resource.
+        data:
+          type: object
+          required:
+            - message
+          properties:
+            message:
+              type: string
+              example: 'Conflict. This id already exists'
