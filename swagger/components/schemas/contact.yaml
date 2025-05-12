@@ -4,7 +4,6 @@ required:
   - userId
   - name
   - phoneNumber
-  - email
   - contactType
 properties:
   _id:
