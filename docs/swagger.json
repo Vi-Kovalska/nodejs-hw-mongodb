@@ -45,7 +45,6 @@
                 "required": [
                   "name",
                   "phoneNumber",
-                  "email",
                   "contactType"
                 ],
                 "properties": {
@@ -126,12 +125,6 @@
           },
           "401": {
             "$ref": "#/components/responses/401"
-          },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
-          "409": {
-            "$ref": "#/components/responses/409"
           },
           "500": {
             "$ref": "#/components/responses/500"
@@ -302,9 +295,6 @@
           "401": {
             "$ref": "#/components/responses/401"
           },
-          "404": {
-            "$ref": "#/components/responses/404"
-          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -364,6 +354,9 @@
                 }
               }
             }
+          },
+          "400": {
+            "$ref": "#/components/responses/400"
           },
           "401": {
             "$ref": "#/components/responses/401"
@@ -486,9 +479,6 @@
           "404": {
             "$ref": "#/components/responses/404"
           },
-          "409": {
-            "$ref": "#/components/responses/409"
-          },
           "500": {
             "$ref": "#/components/responses/500"
           }
@@ -521,6 +511,9 @@
           "204": {
             "$ref": "#/components/responses/204"
           },
+          "400": {
+            "$ref": "#/components/responses/400"
+          },
           "401": {
             "$ref": "#/components/responses/401"
           },
@@ -549,7 +542,6 @@
           "userId",
           "name",
           "phoneNumber",
-          "email",
           "contactType"
         ],
         "properties": {
@@ -709,43 +701,6 @@
                     "message": {
                       "type": "string",
                       "example": "Not found"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "409": {
-        "description": "Conflict",
-        "content": {
-          "application/json": {
-            "schema": {
-              "type": "object",
-              "required": [
-                "status",
-                "message",
-                "data"
-              ],
-              "properties": {
-                "status": {
-                  "type": "integer",
-                  "example": 409
-                },
-                "message": {
-                  "type": "string",
-                  "example": "The request cannot be completed due to a conflict with the current state of the resource."
-                },
-                "data": {
-                  "type": "object",
-                  "required": [
-                    "message"
-                  ],
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Conflict. This id already exists"
                     }
                   }
                 }
