@@ -16,7 +16,7 @@ export const postContactSchema = Joi.object({
   }),
   phoneNumber: Joi.string()
     .min(12)
-    .max(12)
+    .max(13)
     .pattern(validPhone)
     .required()
     .messages({
@@ -53,7 +53,7 @@ export const patchContactSchema = Joi.object({
     'string.max': 'Username should have at most {#limit} characters',
     'any.required': 'Username is required',
   }),
-  phoneNumber: Joi.string().min(3).max(20).pattern(validPhone).messages({
+  phoneNumber: Joi.string().min(12).max(13).pattern(validPhone).messages({
     'string.base':
       'Phone number should be a string in format: +XXX XXX XXX XXX',
     'string.min': 'Phone number should have at least {#limit} characters',

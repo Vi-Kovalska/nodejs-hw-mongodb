@@ -616,7 +616,7 @@
                 },
                 "message": {
                   "type": "string",
-                  "example": "Bad request in body"
+                  "example": "Bad request"
                 },
                 "data": {
                   "type": "object",
@@ -626,7 +626,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Bad request! Id is not valid."
+                      "example": "Bad request!"
                     }
                   }
                 }
