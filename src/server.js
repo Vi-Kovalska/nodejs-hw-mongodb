@@ -3,7 +3,10 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import pino from 'pino-http';
 import { getEnvVar } from './utils/getEnvVar.js';
-import { getAllContacts, getContactById } from './services/contacts.js';
+import Routers from './routers/index.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
+import cookieParser from 'cookie-parser';
 
 export const setupServer = () => {
   const app = express();
@@ -17,46 +20,15 @@ export const setupServer = () => {
     }),
   );
 
-  app.get('/contacts', async (req, res) => {
-    const contacts = await getAllContacts();
+  app.use(cookieParser());
+  app.use(Routers);
 
-    res.status(200).json({
-      status: 200,
-      message: 'Successfully found contacts!',
-      data: contacts,
-    });
-  });
+  app.use(notFoundHandler);
 
-  app.get('/contacts/:id', async (req, res) => {
-    const { id } = req.params;
-
-    const contactById = await getContactById(id);
-
-    if (!contactById) {
-      res.status(404).json({
-        message: 'Contact not found',
-      });
-    }
-    res.status(200).json({
-      status: 200,
-      message: `Successfully found contact with id ${id}!`,
-      data: contactById,
-    });
-  });
-  app.use((req, res, next) => {
-    res.status(404).json({
-      message: 'Page not found with this route',
-    });
-  });
-
-  app.use((err, req, res, next) => {
-    res.status(500).json({
-      message: 'Something went wrong',
-      error: err.message,
-    });
-  });
+  app.use(errorHandler);
 
   const port = +getEnvVar('PORT', '3000');
+
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   });
